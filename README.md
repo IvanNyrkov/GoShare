@@ -1,7 +1,6 @@
 # Go Share
 
-Simple file sharing service.
-Based on randomly generated easy to remember code for file download.
+Simple file sharing service based on randomly generated and easy to remember code for file download.
 
 [Main page](http://cs630430.vk.me/v630430677/8e/jY04CyWwBhM.jpg)
 
