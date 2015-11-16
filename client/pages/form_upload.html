@@ -1,0 +1,10 @@
+<h1 class="cover-heading">Simple file sharing</h1>
+<p class="lead">
+    <form>
+        <div class="btn btn-lg btn-default fileUpload">
+            <span>Upload</span>
+            <input class="upload" type="file" name="file"
+                        onchange="angular.element(this).scope().uploadFile(this.files)" />
+        </div>
+    </form>
+</p>
