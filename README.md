@@ -12,7 +12,7 @@ Simple file sharing service based on randomly generated and easy to remember cod
     - open browser on localhost:3010
 
 ### Settings
-To see all possible options run:
+    To see all possible options run:
     - go run server/*.go -help  
 
 ### Backend
