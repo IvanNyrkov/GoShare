@@ -11,6 +11,10 @@ Simple file sharing service based on randomly generated and easy to remember cod
     - go run server/*.go
     - open browser on localhost:3010
 
+### Settings
+To see all possible options run:
+    - go run server/*.go -help  
+
 ### Backend
     - Golang
     - Negroni
@@ -21,7 +25,8 @@ Simple file sharing service based on randomly generated and easy to remember cod
     - Bootstrap
 
 ### Todos
-    - Database connection with file-info tracking
-    - Scheduled auto-deletion of old files
+    - Passphrase uniqueness
+    - Scheduled auto-deletion of old files from database
     - Download by passphrase page
     - Info, Contacts pages
+    - Validation and error information on user-side
