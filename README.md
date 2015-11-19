@@ -8,12 +8,12 @@ Simple file sharing service based on randomly generated and easy to remember cod
 
 ### How to run
     - git clone https://github.com/IvanNyrkov/Go-Share.git
-    - go run server/*.go
+    - go run src/main.go
     - open browser on localhost:3010
 
 ### Settings
     To see all possible options run:
-    - go run server/*.go -help  
+    - go run src/main.go -help  
 
 ### Backend
     - Golang

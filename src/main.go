@@ -3,23 +3,38 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/IvanNyrkov/go-share/src/database"
+	"github.com/IvanNyrkov/go-share/src/passphrase"
+	"github.com/IvanNyrkov/go-share/src/store"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
-	"io"
-	"mime/multipart"
+	_ "github.com/lib/pq"
 	"net/http"
-	"os"
 )
 
 var (
-	port      = flag.Int("port", 3010, "Port to serve on")
-	webDir    = flag.String("web-dir", "../client/", "Directory with web files")
-	uploadDir = flag.String("upload-dir", "./store/", "Directory with uploaded files")
+	port   = flag.Int("port", 3010, "Port to serve on")
+	webDir = flag.String("web-dir", "../public/", "Directory with web files")
+
+	dbUser     = flag.String("db-user", "admin", "Database username")
+	dbPassword = flag.String("db-pass", "admin", "Database password")
+	dbName     = flag.String("db-name", "go-share", "Database name")
+
+	db *database.DBConnection
 )
 
 // Main function of application
 func main() {
 	flag.Parse()
+
+	dbConnection, err := database.NewConnection(dbUser, dbPassword, dbName)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	db = dbConnection
+
+	go store.DaemonFileCleaner(*dbConnection)
 
 	router := mux.NewRouter()
 	router.HandleFunc("/upload", fileUploadHandler).Methods("POST")
@@ -45,31 +60,19 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	path := *uploadDir + handler.Filename
-	err = saveFile(path, file)
+	err = store.SaveFile(handler.Filename, file)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	passphrase := GetRandomSentence("_")
-	err = DBInsertUploadedFileInfo(path, passphrase)
+	passphrase := passphrase.GetRandomSentence("_")
+
+	err = db.DBInsertUploadedFileInfo(handler.Filename, passphrase)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	w.Write([]byte(passphrase))
-}
-
-// File saving in upload directory
-func saveFile(path string, file multipart.File) (err error) {
-	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0666)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	io.Copy(f, file)
-	return
 }

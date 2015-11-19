@@ -1,9 +1,11 @@
-package main
+package passphrase
 
 import (
 	"bufio"
 	"math/rand"
 	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -16,13 +18,19 @@ var (
 
 // Initialization of word arrays
 func init() {
-	nounWords = mustInitWordsFromFile(nounsFile)
-	adjectiveWords = mustInitWordsFromFile(adjectivesFile)
+	_, currentPath, _, _ := runtime.Caller(1)
+	path := filepath.Dir(currentPath)
+
+	nounsFilePath := filepath.Join(path, nounsFile)
+	nounWords = mustInitWordsFromFile(nounsFilePath)
+
+	adjectivesFilePath := filepath.Join(path, adjectivesFile)
+	adjectiveWords = mustInitWordsFromFile(adjectivesFilePath)
 }
 
 // Initialization of words array from file
-func mustInitWordsFromFile(filename string) (words []string) {
-	file, err := os.Open(filename)
+func mustInitWordsFromFile(filePath string) (words []string) {
+	file, err := os.OpenFile(filePath, os.O_RDONLY, 0666)
 	if err != nil {
 		panic(err)
 	}
