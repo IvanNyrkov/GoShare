@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq" // postgres driver
 	"time"
 )
 
@@ -18,16 +19,21 @@ func NewConnection(dbUser, dbPassword, dbName *string) (dbConnection *DBConnecti
 	if err != nil {
 		return
 	}
-	return &DBConnection{db}, nil
+	err = db.Ping()
+	if err != nil {
+		return
+	}
+	dbConnection = &DBConnection{db}
+	return
 }
 
 // DBInsertUploadedFileInfo inserts a new record about uploaded file into database
-func (db *DBConnection) DBInsertUploadedFileInfo(path string, passphrase string) (err error) {
+func (db *DBConnection) DBInsertUploadedFileInfo(path, passphrase string, createdAt time.Time) (err error) {
 	stmt, err := db.Prepare("INSERT INTO model.uploaded_file(path, passphrase, created_at) VALUES($1, $2, $3);")
 	if err != nil {
 		return
 	}
-	_, err = stmt.Exec(path, passphrase, time.Now())
+	_, err = stmt.Exec(path, passphrase, createdAt)
 	if err != nil {
 		return
 	}

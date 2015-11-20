@@ -26,8 +26,8 @@ goShareApp.config(function($routeProvider) {
 goShareApp.controller('uploadController', function($scope, $http) {
     $scope.uploadFile = function(files) {
         var formData = new FormData();
-        formData.append("uploadFile", files[0]);
-        $http.post("upload", formData, {
+        formData.append("file", files[0]);
+        $http.post("/api/uploadFile", formData, {
             withCredentials: true,
             headers: {'Content-Type': undefined },
             transformRequest: angular.identity

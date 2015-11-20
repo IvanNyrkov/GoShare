@@ -3,72 +3,66 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/IvanNyrkov/go-share/src/database"
-	"github.com/IvanNyrkov/go-share/src/passphrase"
-	"github.com/IvanNyrkov/go-share/src/store"
-	"github.com/codegangsta/negroni"
+	"github.com/IvanNyrkov/Go-Share/src/database"
+	"github.com/IvanNyrkov/Go-Share/src/passphrase"
+	"github.com/IvanNyrkov/Go-Share/src/store"
 	"github.com/gorilla/mux"
-	_ "github.com/lib/pq"
 	"net/http"
+	"time"
 )
 
 var (
 	port   = flag.Int("port", 3010, "Port to serve on")
-	webDir = flag.String("web-dir", "../public/", "Directory with web files")
+	webDir = flag.String("web-dir", "public", "Directory with web files")
 
 	dbUser     = flag.String("db-user", "admin", "Database username")
 	dbPassword = flag.String("db-pass", "admin", "Database password")
 	dbName     = flag.String("db-name", "go-share", "Database name")
 
-	db *database.DBConnection
+	dbConnection *database.DBConnection
 )
 
 // Main function of application
 func main() {
 	flag.Parse()
 
-	dbConnection, err := database.NewConnection(dbUser, dbPassword, dbName)
+	var err error
+	dbConnection, err = database.NewConnection(dbUser, dbPassword, dbName)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	db = dbConnection
 
 	go store.DaemonFileCleaner(*dbConnection)
 
 	router := mux.NewRouter()
-	router.HandleFunc("/upload", fileUploadHandler).Methods("POST")
-
-	n := negroni.New(
-		negroni.NewRecovery(),
-		negroni.NewLogger(),
-		negroni.NewStatic(http.Dir(*webDir)))
-	n.UseHandler(router)
-
-	address := fmt.Sprintf("127.0.0.1:%d", *port)
-	n.Run(address)
+	router.HandleFunc("/api/uploadFile", fileUploadHandler).Methods("POST")
+	http.Handle("/api/", router)
+	http.Handle("/", http.FileServer(http.Dir(*webDir)))
+	http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", *port), nil)
 }
 
 // Handles post-request with file in the body
 // Responses with generated passphrase or error
 func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(0)
-	file, handler, err := r.FormFile("uploadFile")
+	file, handler, err := r.FormFile("file")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	defer file.Close()
 
-	err = store.SaveFile(handler.Filename, file)
+	passphrase := passphrase.GetRandomSentence("_")
+	createdAt := time.Now()
+
+	err = store.SaveFile(createdAt.String(), file)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	passphrase := passphrase.GetRandomSentence("_")
-
-	err = db.DBInsertUploadedFileInfo(handler.Filename, passphrase)
+	err = dbConnection.DBInsertUploadedFileInfo(handler.Filename, passphrase, createdAt)
 	if err != nil {
 		fmt.Println(err)
 		return

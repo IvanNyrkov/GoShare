@@ -4,6 +4,7 @@ CREATE TABLE uploaded_file (
   uploaded_file_id      INTEGER NOT NULL,
   path                  CHARACTER VARYING(512) NOT NULL,
   passphrase            CHARACTER VARYING(512) NOT NULL,
+  deleted               BOOLEAN DEFAULT FALSE,
   created_at            TIMESTAMP
 );
 ALTER TABLE model.uploaded_file OWNER TO admin;
