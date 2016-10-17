@@ -34,6 +34,11 @@ func NewService(adjFilename, nounsFilename string) (Service, error) {
 
 // GetRandomSentence returns random sentence (noun + adj) divided by the specified separator
 func (s *serviceImpl) GetRandomSentence(sep string) string {
+	adjAmount := len(s.adjectives)
+	nounAmount := len(s.nouns)
+	if adjAmount == 0 || nounAmount == 0 {
+		return ""
+	}
 	adjectiveRand := rand.Intn(len(s.adjectives))
 	nounRand := rand.Intn(len(s.nouns))
 	result := []string{

@@ -1,7 +1,6 @@
 package store
 
 import (
-	"github.com/IvanNyrkov/Go-Share/src/database"
 	"io"
 	"mime/multipart"
 	"os"
@@ -27,13 +26,12 @@ func SaveFile(fileName string, file multipart.File) (err error) {
 		return err
 	}
 	defer f.Close()
-
 	io.Copy(f, file)
 	return
 }
 
 // DaemonFileCleaner deletes all old files
-func DaemonFileCleaner(db database.DBConnection) {
+func DaemonFileCleaner() {
 	// Get list of files market Deleted from db
 
 	// Get list of files in folder
