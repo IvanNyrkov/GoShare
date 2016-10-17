@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/IvanNyrkov/GoShare
 ADD ./public /go/src/github.com/IvanNyrkov/GoShare/public
 ADD ./src /go/src/github.com/IvanNyrkov/GoShare/src
 
-# DEFAULT ENVIRONMENTS
+# DEFAULT ENVIRONMENT VARIABLES
 ENV ENVIRONMENT=development
 ENV EXPOSE_PORT=:80
 
