@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/IvanNyrkov/GoShare/src/api"
 	"github.com/IvanNyrkov/GoShare/src/rand/sentence"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
@@ -14,6 +15,7 @@ type App struct {
 	Config             *Config
 	Router             *echo.Echo
 	RandSentenceModule sentence.Module
+	APIModule          api.Module
 }
 
 // NewApp creates default application structure

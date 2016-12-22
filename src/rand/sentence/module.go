@@ -21,7 +21,7 @@ var DefaultConfig = ModuleConfig{
 }
 
 // NewModule creates struct that encapsulates the module
-func NewModule(config ModuleConfig) (Module, error) {
+func NewModule(config ModuleConfig) (*moduleImpl, error) {
 	// Create service
 	service, err := NewService(
 		config.AdjectivesFile,

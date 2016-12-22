@@ -27,13 +27,13 @@ goShareApp.controller('uploadController', function($scope, $http) {
     $scope.uploadFile = function(files) {
         var formData = new FormData();
         formData.append("file", files[0]);
-        $http.post("/api/uploadFile", formData, {
+        $http.post("/api/files", formData, {
             withCredentials: true,
             headers: {'Content-Type': undefined },
             transformRequest: angular.identity
         })
         .success(function(response) {
-            location.href = "#download?code=" + response
+            location.href = "#download?code=" + response.code
         })
         .error(function() {
             // TODO

@@ -19,7 +19,7 @@ func init() {
 }
 
 // SaveFile saves file in path
-func SaveFile(fileName string, file multipart.File) (err error) {
+func SaveFile(fileName string, file multipart.File) error {
 	filePath := filepath.Join(fullUploadPath, fileName)
 	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -27,7 +27,7 @@ func SaveFile(fileName string, file multipart.File) (err error) {
 	}
 	defer f.Close()
 	io.Copy(f, file)
-	return
+	return nil
 }
 
 // DaemonFileCleaner deletes all old files
