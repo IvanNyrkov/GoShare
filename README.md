@@ -2,16 +2,15 @@
 
 Simple file sharing service based on randomly generated and easy to remember code for file download.
 
-![Main page](http://cs630430.vk.me/v630430677/8e/jY04CyWwBhM.jpg)
-
 ![Generated code](http://cs630430.vk.me/v630430677/95/SUyOcnvlkJo.jpg)
+![Main page](http://cs630430.vk.me/v630430677/8e/jY04CyWwBhM.jpg)
 
 ### How to run without docker
     - git clone https://github.com/IvanNyrkov/GoShare.git
     - sh run.sh
     - open browser on localhost:1337
  
- ## How to run with docker
+### How to run with docker
     - git clone https://github.com/IvanNyrkov/GoShare.git
     - sh run-docker.sh
     - open browser on ${docker-host-ip}:80
