@@ -1,7 +1,5 @@
 package sentence
 
-import "github.com/IvanNyrkov/GoShare/src/rand/sentence/dictionary"
-
 // Module defines module interface
 type Module interface {
 	GetService() Service
@@ -16,11 +14,18 @@ type ModuleConfig struct {
 	AdjectivesFile string
 }
 
+// DefaultConfig is a default config settings
+var DefaultConfig = ModuleConfig{
+	NounsFile:      defaultNounsFilePath,
+	AdjectivesFile: defaultAdjectivesFilePath,
+}
+
 // NewModule creates struct that encapsulates the module
 func NewModule(config ModuleConfig) (Module, error) {
+	// Create service
 	service, err := NewService(
-		dictionary.GetAdjectivesFilename(config.AdjectivesFile),
-		dictionary.GetNounsFilename(config.NounsFile),
+		config.AdjectivesFile,
+		config.NounsFile,
 	)
 	if err != nil {
 		return nil, err

@@ -17,12 +17,12 @@ type serviceImpl struct {
 }
 
 // NewService creates new service for generation random sentences
-func NewService(adjFilename, nounsFilename string) (Service, error) {
-	adjectives, err := readWordsFromFile(adjFilename)
+func NewService(adjFilePath, nounsFilePath string) (*serviceImpl, error) {
+	adjectives, err := readWordsFromFile(adjFilePath)
 	if err != nil {
 		return nil, err
 	}
-	nouns, err := readWordsFromFile(nounsFilename)
+	nouns, err := readWordsFromFile(nounsFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -49,9 +49,9 @@ func (s *serviceImpl) GetRandomSentence(sep string) string {
 }
 
 // readWordsFromFile parses file lines into string slice
-func readWordsFromFile(filename string) ([]string, error) {
+func readWordsFromFile(filePath string) ([]string, error) {
 	// Open file
-	file, err := os.OpenFile(filename, os.O_RDONLY, 0666)
+	file, err := os.OpenFile(filePath, os.O_RDONLY, 0666)
 	if err != nil {
 		return nil, err
 	}
