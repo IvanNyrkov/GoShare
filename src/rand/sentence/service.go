@@ -9,7 +9,7 @@ import (
 
 // Service is an interface that defines actions for generation of random sentences
 type Service interface {
-	GetRandomSentence(sep string) string
+	RandomSentence(sep string) string
 }
 type serviceImpl struct {
 	adjectives []string
@@ -32,8 +32,8 @@ func NewService(adjFilePath, nounsFilePath string) (*serviceImpl, error) {
 	}, nil
 }
 
-// GetRandomSentence returns random sentence (noun + adj) divided by the specified separator
-func (s *serviceImpl) GetRandomSentence(sep string) string {
+// RandomSentence returns random sentence (noun + adj) divided by the specified separator
+func (s *serviceImpl) RandomSentence(sep string) string {
 	adjAmount := len(s.adjectives)
 	nounAmount := len(s.nouns)
 	if adjAmount == 0 || nounAmount == 0 {

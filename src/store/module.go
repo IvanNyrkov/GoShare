@@ -1,4 +1,4 @@
-package sentence
+package store
 
 // Module defines module interface
 type Module interface {
@@ -10,28 +10,20 @@ type moduleImpl struct {
 
 // ModuleConfig contains required configs
 type ModuleConfig struct {
-	NounsFile      string
-	AdjectivesFile string
+	UploadDir string
 }
 
 // DefaultConfig is a default config settings
 var DefaultConfig = ModuleConfig{
-	NounsFile:      defaultNounsFilePath,
-	AdjectivesFile: defaultAdjectivesFilePath,
+	UploadDir: defaultUploadDir,
 }
 
 // NewModule creates struct that encapsulates the module
-func NewModule(config ModuleConfig) (*moduleImpl, error) {
-	service, err := NewService(
-		config.AdjectivesFile,
-		config.NounsFile,
-	)
-	if err != nil {
-		return nil, err
-	}
+func NewModule(config ModuleConfig) *moduleImpl {
+	service := NewService(config.UploadDir)
 	return &moduleImpl{
 		service: service,
-	}, nil
+	}
 }
 
 // GetService returns module service

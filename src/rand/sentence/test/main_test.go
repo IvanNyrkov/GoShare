@@ -32,7 +32,7 @@ func TestMustReceiveEmptyStringIfFilesAreEmpty(t *testing.T) {
 		AdjectivesFile: "empty_file.txt",
 	})
 	require.Nil(t, err)
-	s := m.GetService().GetRandomSentence(".")
+	s := m.GetService().RandomSentence(".")
 	require.Empty(t, s)
 }
 
@@ -54,7 +54,7 @@ func TestSeparator(t *testing.T) {
 	require.Nil(t, err)
 	service := m.GetService()
 	for _, s := range []string{".", "/", "|", "-", "_", "+", ""} {
-		require.Equal(t, "test"+s+"test", service.GetRandomSentence(s))
+		require.Equal(t, "test"+s+"test", service.RandomSentence(s))
 	}
 }
 
@@ -77,10 +77,10 @@ func TestSentenceMustBeRandom(t *testing.T) {
 	service := m.GetService()
 	// Try to get different result for 'limit' tries
 	// TODO: It's random, so it can be properly tested
-	firstResult := service.GetRandomSentence("")
+	firstResult := service.RandomSentence("")
 	currentTry := 1
 	limit := 50
-	for firstResult == service.GetRandomSentence("") && currentTry != limit {
+	for firstResult == service.RandomSentence("") && currentTry != limit {
 		currentTry++
 	}
 	require.NotEqual(t, limit, currentTry)

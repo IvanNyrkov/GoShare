@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/IvanNyrkov/GoShare/src/store"
 	"github.com/labstack/echo"
 )
 
@@ -30,6 +29,7 @@ func NewController(service Service) *controllerImpl {
 
 // UploadFile reads file from multipart form data, saves it and responds with randomly generated sentence
 func (c *controllerImpl) UploadFile(ctx echo.Context) error {
+	// Parse file from form
 	fileHeader, err := ctx.FormFile("file")
 	if err != nil {
 		log.Println("Can't parse file from form data: Error: ", err.Error())
@@ -46,15 +46,16 @@ func (c *controllerImpl) UploadFile(ctx echo.Context) error {
 			Message:    "Can't open file parsed from form data.",
 		})
 	}
-	if err := store.SaveFile(fileHeader.Filename, file); err != nil {
+	// Save file
+	code, err := c.service.UploadFile(fileHeader.Filename, file)
+	if err != nil {
 		log.Println("Error while saving the file: Error: ", err.Error())
 		return ctx.JSON(http.StatusInternalServerError, responseStatus{
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Error while saving the file.",
 		})
 	}
-	code := "GENERATED-CODE"
-	log.Println("File has been saved: Code has been generated: ", code)
+	log.Println("File has been saved: Code has been code: ", code)
 	return ctx.JSON(http.StatusOK, struct {
 		responseStatus
 		Code string `json:"code"`

@@ -5,6 +5,7 @@ import (
 
 	"github.com/IvanNyrkov/GoShare/src/api"
 	"github.com/IvanNyrkov/GoShare/src/rand/sentence"
+	"github.com/IvanNyrkov/GoShare/src/store"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 	"github.com/labstack/echo/middleware"
@@ -15,6 +16,7 @@ type App struct {
 	Config             *Config
 	Router             *echo.Echo
 	RandSentenceModule sentence.Module
+	FileStorageModule  store.Module
 	APIModule          api.Module
 }
 

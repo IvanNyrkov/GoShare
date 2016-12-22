@@ -14,11 +14,13 @@ type moduleImpl struct {
 
 // ModuleConfig contains required configs
 type ModuleConfig struct {
+	RandSentenceService randSentenceService
+	FileStorageService  fileStorageService
 }
 
 // NewModule creates struct that encapsulates the module
 func NewModule(config ModuleConfig) *moduleImpl {
-	service := NewService()
+	service := NewService(config.RandSentenceService, config.FileStorageService)
 	controller := NewController(service)
 	return &moduleImpl{
 		controller: controller,
