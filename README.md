@@ -17,7 +17,6 @@ Simple file sharing service based on a randomly generated and easy to remember c
 
 ### Backend
     - Go
-    - Echo
     - Redis? (store info about saved files)
 
 ### Frontend

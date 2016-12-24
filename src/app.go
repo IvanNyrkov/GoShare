@@ -3,18 +3,20 @@ package main
 import (
 	"log"
 
+	"net/http"
+
+	"time"
+
 	"github.com/IvanNyrkov/GoShare/src/api"
 	"github.com/IvanNyrkov/GoShare/src/rand/sentence"
 	"github.com/IvanNyrkov/GoShare/src/store"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/engine/standard"
-	"github.com/labstack/echo/middleware"
+	"github.com/gorilla/mux"
 )
 
 // App stores config, db connection and all injected modules
 type App struct {
 	Config             *Config
-	Router             *echo.Echo
+	Router             *mux.Router
 	RandSentenceModule sentence.Module
 	FileStorageModule  store.Module
 	APIModule          api.Module
@@ -28,22 +30,23 @@ func NewApp() *App {
 		Port: ":80",
 	}
 	// Create default router
-	app.Router = echo.New()
-	// Implementing C.O.R.S. headers enable pages within a modern web browser
-	// to consume resources (such as REST APIs) from servers that are on a different domain.
-	app.Router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
-	}))
-	// Logger middleware
-	app.Router.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: `${time_rfc3339} | ${method} | ${uri} | ${status} | ${latency_human}` + "\n",
-	}))
+	app.Router = mux.NewRouter()
 	return app
 }
 
 // Run starts application
 func (app *App) Run() error {
 	log.Printf("Listening at port %s", app.Config.Port)
-	return app.Router.Run(standard.New(app.Config.Port))
+	return http.ListenAndServe(app.Config.Port, func(inner http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			inner.ServeHTTP(w, r)
+			log.Printf(
+				"[%s] | %s | %s",
+				r.Method,
+				r.RequestURI,
+				time.Since(start),
+			)
+		})
+	}(app.Router))
 }

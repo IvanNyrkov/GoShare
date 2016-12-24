@@ -1,11 +1,11 @@
 package api
 
-import "github.com/labstack/echo"
+import "github.com/gorilla/mux"
 
 // Module defines module interface
 type Module interface {
 	GetService() Service
-	InitRoutes(router *echo.Echo)
+	InitRoutes(router *mux.Router)
 }
 type moduleImpl struct {
 	controller Controller
