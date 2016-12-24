@@ -10,6 +10,8 @@ import (
 	"github.com/nrkv/GoShare/app/rand/sentence"
 	"github.com/nrkv/GoShare/app/store"
 	"github.com/nrkv/snippers"
+	"io"
+	"os"
 )
 
 // App stores config, db connection and all injected modules
@@ -36,5 +38,5 @@ func New() *App {
 // Run starts application
 func (app *App) Run() error {
 	log.Printf("Listening at port %s", app.Config.Port)
-	return http.ListenAndServe(app.Config.Port, snippers.Logger(app.Router, snippers.DefaultLoggerConfig))
+	return http.ListenAndServe(app.Config.Port, snippers.Logger(app.Router, os.Stdout, snippers.DefaultLoggerConfig))
 }

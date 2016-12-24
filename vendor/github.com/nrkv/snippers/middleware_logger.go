@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"bytes"
+	"os"
+	"io"
 )
 
 // LoggerFormat is a struct that specifies format of printed log unit
@@ -46,16 +48,17 @@ var DefaultLoggerConfig = []LoggerFormat{
 }
 
 // Logger is a middleware handler that prints info about request (latency, status, uri, method, time)
-func Logger(inner http.Handler, logFormat []LoggerFormat) http.Handler {
+func Logger(inner http.Handler, out io.Writer, logFormat []LoggerFormat) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Start timer
 		start := time.Now()
-
+		// Serve request
 		loggedResponse := &loggedResponse{
 			ResponseWriter: w,
 			status:         200,
 		}
 		inner.ServeHTTP(loggedResponse, r)
-
+		// Assemble log record
 		var format bytes.Buffer
 		var values []interface{}
 		for _, f := range logFormat {
@@ -80,11 +83,15 @@ func Logger(inner http.Handler, logFormat []LoggerFormat) http.Handler {
 				values = append(values, f.Value)
 			}
 		}
-		fmt.Printf(format.String(), values...)
+		// Print log record
+		if out == nil {
+			out = os.Stdout
+		}
+		fmt.Fprintf(out, format.String(), values...)
 	})
 }
 
-// loggedResponse is a wrapper offer ResponseWriter that allows us to use response status
+// loggedResponse is a wrapper over the ResponseWriter interface that allows us to use its response status
 type loggedResponse struct {
 	http.ResponseWriter
 	status int
