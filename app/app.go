@@ -5,13 +5,13 @@ import (
 
 	"net/http"
 
+	"os"
+
 	"github.com/gorilla/mux"
 	"github.com/nrkv/GoShare/app/api"
 	"github.com/nrkv/GoShare/app/rand/sentence"
 	"github.com/nrkv/GoShare/app/store"
 	"github.com/nrkv/snippers"
-	"io"
-	"os"
 )
 
 // App stores config, db connection and all injected modules
