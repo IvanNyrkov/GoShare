@@ -4,12 +4,13 @@ import (
 	"log"
 
 	"os"
+	"github.com/nrkv/GoShare/app"
 )
 
 // Main function of application
 func main() {
 	// Create app with default settings
-	app := NewApp()
+	app := app.New()
 	// Init config
 	if err := app.InitConfig(os.Getenv("CONFIG_FILE")); err != nil {
 		log.Fatal("Error while parsing config file: " + err.Error())

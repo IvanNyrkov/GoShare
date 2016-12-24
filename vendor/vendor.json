@@ -25,6 +25,13 @@
 			"tree": true
 		},
 		{
+			"checksumSHA1": "psUKx2ZIBNh1Aj50xms/lPEDY5s=",
+			"path": "github.com/nrkv/snippers",
+			"revision": "54254b348a3cd5d73314d45e1c134235536e194b",
+			"revisionTime": "2016-12-24T12:59:15Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "zKKp5SZ3d3ycKe4EKMNT0BqAWBw=",
 			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
 			"path": "github.com/pmezard/go-difflib/difflib",
@@ -47,5 +54,5 @@
 			"tree": true
 		}
 	],
-	"rootPath": "github.com/IvanNyrkov/GoShare/src"
+	"rootPath": "github.com/nrkv/GoShare"
 }
