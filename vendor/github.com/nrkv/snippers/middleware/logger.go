@@ -1,4 +1,4 @@
-package snippers
+package middleware
 
 import (
 	"fmt"

@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"os"
 	"github.com/nrkv/GoShare/app"
+	"os"
 )
 
 // Main function of application

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nrkv/snippers"
+	"github.com/nrkv/snippers/response"
 )
 
 // Controller is an interface that defines handlers
@@ -33,7 +33,7 @@ func (c *controllerImpl) UploadFile(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(20000000)
 	if r.MultipartForm == nil || len(r.MultipartForm.File["file"]) < 1 {
 		log.Println("Can't parse file from form data")
-		snippers.JSONResponse(w, http.StatusBadRequest, responseStatus{
+		response.JSON(w, http.StatusBadRequest, responseStatus{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Can't parse file from form data.",
 		})
@@ -43,7 +43,7 @@ func (c *controllerImpl) UploadFile(w http.ResponseWriter, r *http.Request) {
 	file, err := fileHeader.Open()
 	if err != nil {
 		log.Println("Can't open file parsed from form data: Error: ", err.Error())
-		snippers.JSONResponse(w, http.StatusBadRequest, responseStatus{
+		response.JSON(w, http.StatusBadRequest, responseStatus{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Can't open file parsed from form data.",
 		})
@@ -53,14 +53,14 @@ func (c *controllerImpl) UploadFile(w http.ResponseWriter, r *http.Request) {
 	code, err := c.service.UploadFile(fileHeader.Filename, file)
 	if err != nil {
 		log.Println("Error while saving the file: Error: ", err.Error())
-		snippers.JSONResponse(w, http.StatusInternalServerError, responseStatus{
+		response.JSON(w, http.StatusInternalServerError, responseStatus{
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Error while saving the file.",
 		})
 		return
 	}
 	log.Println("File has been saved: Code has been generated: ", code)
-	snippers.JSONResponse(w, http.StatusOK, struct {
+	response.JSON(w, http.StatusOK, struct {
 		responseStatus
 		Code string `json:"code"`
 	}{
