@@ -30,22 +30,12 @@ func NewController(service Service) *controllerImpl {
 // UploadFile reads file from multipart form data, saves it and responds with randomly generated sentence
 func (c *controllerImpl) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Parse file from form
-	r.ParseMultipartForm(20000000)
-	if r.MultipartForm == nil || len(r.MultipartForm.File["file"]) < 1 {
-		log.Println("Can't parse file from form data")
+	file, fileHeader, err := r.FormFile("file")
+	if err != nil {
+		log.Println("Can't parse file from form data: Error: ", err.Error())
 		response.JSON(w, http.StatusBadRequest, responseStatus{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Can't parse file from form data.",
-		})
-		return
-	}
-	fileHeader := r.MultipartForm.File["file"][0]
-	file, err := fileHeader.Open()
-	if err != nil {
-		log.Println("Can't open file parsed from form data: Error: ", err.Error())
-		response.JSON(w, http.StatusBadRequest, responseStatus{
-			StatusCode: http.StatusBadRequest,
-			Message:    "Can't open file parsed from form data.",
 		})
 		return
 	}
