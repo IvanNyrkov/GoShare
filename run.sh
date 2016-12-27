@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-CONFIG_FILE=config-local.json go run main.go
+CONFIG_FILE=configs/config-local.json go run *.go

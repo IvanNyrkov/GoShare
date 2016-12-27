@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/nrkv/GoShare/app/rand/sentence"
+	"github.com/nrkv/GoShare/rand/sentence"
 	"github.com/stretchr/testify/require"
 )
 

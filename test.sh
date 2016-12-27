@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-CONFIG_FILE=config-test.json go test github.com/IvanNyrkov/GoShare/src/rand/sentence/test
+CONFIG_FILE=configs/config-test.json go test github.com/nrkv/GoShare/rand/sentence/test

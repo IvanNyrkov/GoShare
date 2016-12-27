@@ -1,9 +1,9 @@
-package app
+package main
 
 import (
-	"github.com/nrkv/GoShare/app/api"
-	"github.com/nrkv/GoShare/app/rand/sentence"
-	"github.com/nrkv/GoShare/app/store"
+	"github.com/nrkv/GoShare/api"
+	"github.com/nrkv/GoShare/rand/sentence"
+	"github.com/nrkv/GoShare/store"
 )
 
 // InitModules injects all required app modules
