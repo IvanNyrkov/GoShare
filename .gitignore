@@ -1,2 +1,8 @@
+# ide files
 .idea
-src/store/files/*
+
+# uploaded files
+store/files/*.*
+
+# go-torch file
+torch.svg

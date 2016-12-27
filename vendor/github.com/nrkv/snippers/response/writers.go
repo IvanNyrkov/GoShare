@@ -42,3 +42,9 @@ func XML(w http.ResponseWriter, code int, data interface{}) error {
 	_, err = w.Write(b)
 	return err
 }
+
+// File responds with status code and File data
+func File(w http.ResponseWriter, r *http.Request, code int, filePath string) {
+	w.WriteHeader(code)
+	http.ServeFile(w, r, filePath)
+}

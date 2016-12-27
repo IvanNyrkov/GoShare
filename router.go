@@ -1,16 +1,16 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
+	"github.com/nrkv/snippers/middleware"
+	"log"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
-	"log"
-	"github.com/nrkv/snippers/middleware"
-	"github.com/gorilla/mux"
 )
 
-// InitRouter sets up application router
-func (app *App) InitRouter() error {
+// InitRoutes sets up application router
+func (app *App) InitRoutes() error {
 	// API endpoints
 	if app.APIModule != nil {
 		app.APIModule.InitRoutes(app.Router)
