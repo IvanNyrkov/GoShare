@@ -7,12 +7,13 @@ Simple file sharing service based on a randomly generated and easy to remember c
 
 ### How to run without docker
     - git clone https://github.com/nrkv/GoShare.git
-    - sh run.sh
+    - CONFIG_FILE=configs/config-local.json go run *.go
     - open browser on localhost:1337
  
 ### How to run with docker
     - git clone https://github.com/nrkv/GoShare.git
-    - sh run-docker.sh
+    - docker build -t ivannyrkov/goshare .;
+    - docker run --rm -p 80:80 -t -i ivannyrkov/goshare .;
     - open browser on ${docker-host-ip}:80
 
 ### Backend
