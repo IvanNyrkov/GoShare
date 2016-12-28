@@ -4,5 +4,8 @@
 # uploaded files
 store/files/*.*
 
+# binary
+GoShare
+
 # go-torch file
 torch.svg
