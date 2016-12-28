@@ -7,6 +7,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"github.com/justinas/alice"
+	"github.com/rs/cors"
 )
 
 // InitRoutes sets up application router
@@ -33,5 +34,10 @@ func (app *App) ListenAndServe() error {
 		router = mux.NewRouter()
 	}
 	log.Printf("Listening at port %s", port)
-	return http.ListenAndServe(port, alice.New(middleware.Recover, middleware.Logger).Then(router))
+	chain := alice.New(
+		cors.Default().Handler,
+		middleware.Recover,
+		middleware.Logger,
+	).Then(router)
+	return http.ListenAndServe(port, chain)
 }
