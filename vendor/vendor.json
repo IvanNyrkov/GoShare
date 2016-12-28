@@ -25,17 +25,17 @@
 			"tree": true
 		},
 		{
-			"checksumSHA1": "5JDRiL3az7T4bxKPgCrwlj+iJxA=",
+			"checksumSHA1": "QbZGf80Mt+gfQbm2Nl4YQ0ZQ8wg=",
 			"path": "github.com/nrkv/snippers/middleware",
-			"revision": "73861ecc40b7c0d8865156797c267ae31e8a0093",
-			"revisionTime": "2016-12-27T09:34:38Z",
+			"revision": "6c94e5918d7f045d05537dc5ad55a6bfa7a5d2b6",
+			"revisionTime": "2016-12-28T00:22:25Z",
 			"tree": true
 		},
 		{
-			"checksumSHA1": "NNf/T9fmQJXLqQNEANO4I2ZSFuU=",
+			"checksumSHA1": "rKWPYTEDiLUcUnDKvo/uqr4cjJU=",
 			"path": "github.com/nrkv/snippers/response",
-			"revision": "73861ecc40b7c0d8865156797c267ae31e8a0093",
-			"revisionTime": "2016-12-27T09:34:38Z",
+			"revision": "6c94e5918d7f045d05537dc5ad55a6bfa7a5d2b6",
+			"revisionTime": "2016-12-28T00:22:25Z",
 			"tree": true
 		},
 		{
